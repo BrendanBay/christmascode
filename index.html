@@ -95,6 +95,17 @@
         .success {
             color: #28a745;
         }
+        .hint {
+            margin-top: 15px;
+            font-size: 14px;
+            font-style: italic;
+            color: #ffc107;
+            font-weight: bold;
+            background: rgba(255, 193, 7, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #ffc107;
+        }
         @media (max-width: 480px) {
             .container {
                 margin: 20px;
@@ -109,49 +120,78 @@
         <h1>Mid-Del Technology Center</h1>
         <p class="subtitle">Christmas Competition 2025</p>
         <p class="wreath-instruction">Enter the decoded password hidden in your wreath</p>
-        <input type="password" id="codeInput" placeholder="Enter code here" maxlength="20">
-        <br>
+        <input type="password" id="codeInput" placeholder="Enter code here" maxlength="20"><br>
         <button onclick="checkCode()">Access Game</button>
         <div id="message" class="message"></div>
+        <div id="hint" class="hint" style="display: none;"></div>
     </div>
 
     <script>
+        let failCount = 0;
+        const maxAttempts = 3;
+        const hints = [
+            "Use a Caesar Cipher in order to unlock this codeword.",
+            "Take three steps forward and the code shall be revealed.",
+            "The codewords are: hogamadog and crumping."
+        ];
+
+        // Define your codes and game URLs here (unchanged)
+        const codes = {
+            "hogamadog": "https://nolan1957.github.io/snowmangame/", // Replace with first game URL
+            "crumping": "https://brendanbay.github.io/Game" // Replace with second game URL
+        };
+
         function checkCode() {
-    const code = document.getElementById('codeInput').value.trim().toLowerCase();
-    const messageDiv = document.getElementById('message');
-    
-    // Clear previous message
-    messageDiv.textContent = '';
-    messageDiv.className = 'message';
-    
-    // Define your codes and game URLs here (unchanged)
-    const codes = {
-        'hogamadog': 'https://nolan1957.github.io/snowmangame', // Replace with first game URL
-        'crumping': 'https://brendanbay.github.io/Game' // Replace with second game URL
-    };
-    
-    if (codes[code]) {
-        messageDiv.textContent = 'Access granted! Redirecting...';
-        messageDiv.className = 'message success';
-        // Redirect after 1 second
-        setTimeout(() => window.location.href = codes[code], 1000);
-    } else {
-        messageDiv.textContent = 'Invalid code. Please try again.';
-        messageDiv.className = 'message error';
-        document.getElementById('codeInput').value = '';
-        document.getElementById('codeInput').focus();
-    }
-}
+            const code = document.getElementById('codeInput').value.trim().toLowerCase();
+            const messageDiv = document.getElementById('message');
+            const hintDiv = document.getElementById('hint');
 
-// Allow Enter key to submit
-document.getElementById('codeInput').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') checkCode();
-});
+            // Clear previous message and hint
+            messageDiv.textContent = '';
+            messageDiv.className = 'message';
+            hintDiv.style.display = 'none';
+            hintDiv.textContent = '';
 
-// Focus on input when page loads
-window.onload = function() {
-    document.getElementById('codeInput').focus();
-};
+            if (codes[code]) {
+                // Success - reset fail count
+                failCount = 0;
+                messageDiv.textContent = 'Access granted! Redirecting...';
+                messageDiv.className = 'message success';
+                // Redirect after 1 second
+                setTimeout(() => {
+                    window.location.href = codes[code];
+                }, 1000);
+            } else {
+                // Failure - increment counter and show hint if applicable
+                failCount++;
+                if (failCount >= maxAttempts) {
+                    hintDiv.textContent = hints[2];
+                    hintDiv.style.display = 'block';
+                } else if (failCount === 2) {
+                    hintDiv.textContent = hints[1];
+                    hintDiv.style.display = 'block';
+                } else if (failCount === 1) {
+                    hintDiv.textContent = hints[0];
+                    hintDiv.style.display = 'block';
+                }
+                messageDiv.textContent = `Invalid code. Please try again. (${failCount}/${maxAttempts} attempts)`;
+                messageDiv.className = 'message error';
+                document.getElementById('codeInput').value = '';
+                document.getElementById('codeInput').focus();
+            }
+        }
+
+        // Allow Enter key to submit
+        document.getElementById('codeInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkCode();
+            }
+        });
+
+        // Focus on input when page loads
+        window.onload = function() {
+            document.getElementById('codeInput').focus();
+        };
     </script>
 </body>
 </html>
