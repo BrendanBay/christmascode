@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mid-Del Technology Center - Christmas Competition 2025</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 50%, #fff3e0 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+        .christmas-banner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #dc3545 0%, #28a745 33%, #ffc107 66%, #dc3545 100%);
+            border-radius: 15px 15px 0 0;
+        }
+        h1 {
+            color: #dc3545;
+            margin: 30px 0 10px 0;
+            font-size: 28px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .subtitle {
+            color: #28a745;
+            font-size: 16px;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        .wreath-instruction {
+            color: #333;
+            font-size: 14px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        input[type="password"] {
+            width: 80%;
+            padding: 15px;
+            font-size: 18px;
+            border: 2px solid #28a745;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-family: monospace;
+        }
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #dc3545;
+            box-shadow: 0 0 10px rgba(220, 53, 69, 0.3);
+        }
+        button {
+            background: linear-gradient(45deg, #dc3545, #c82333);
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 80%;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        button:hover {
+            background: linear-gradient(45deg, #c82333, #a71e2a);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .error {
+            color: #dc3545;
+        }
+        .success {
+            color: #28a745;
+        }
+        @media (max-width: 480px) {
+            .container {
+                margin: 20px;
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="christmas-banner"></div>
+        <h1>Mid-Del Technology Center</h1>
+        <p class="subtitle">Christmas Competition 2025</p>
+        <p class="wreath-instruction">Enter the decoded password hidden in your wreath</p>
+        <input type="password" id="codeInput" placeholder="Enter code here" maxlength="20">
+        <br>
+        <button onclick="checkCode()">Access Game</button>
+        <div id="message" class="message"></div>
+    </div>
+
+    <script>
+        function checkCode() {
+            const code = document.getElementById('codeInput').value.trim();
+            const messageDiv = document.getElementById('message');
+            
+            // Clear previous message
+            messageDiv.textContent = '';
+            messageDiv.className = 'message';
+            
+            // Define your codes and game URLs here
+            const codes = {
+                'Hogamadog': 'https://nolan1957.github.io/snowmangame/',  // Replace with first game URL
+                'Crumping': 'https://brendanbay.github.io/Game/'  // Replace with second game URL
+            };
+            
+            if (codes[code]) {
+                messageDiv.textContent = 'Access granted! Redirecting...';
+                messageDiv.className = 'message success';
+                // Redirect after 1 second
+                setTimeout(() => {
+                    window.location.href = codes[code];
+                }, 1000);
+            } else {
+                messageDiv.textContent = 'Invalid code. Please try again.';
+                messageDiv.className = 'message error';
+                document.getElementById('codeInput').value = '';
+                document.getElementById('codeInput').focus();
+            }
+        }
+        
+        // Allow Enter key to submit
+        document.getElementById('codeInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkCode();
+            }
+        });
+        
+        // Focus on input when page loads
+        window.onload = function() {
+            document.getElementById('codeInput').focus();
+        };
+    </script>
+</body>
+</html>
