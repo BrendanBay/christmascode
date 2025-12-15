@@ -117,45 +117,41 @@
 
     <script>
         function checkCode() {
-            const code = document.getElementById('codeInput').value.trim();
-            const messageDiv = document.getElementById('message');
-            
-            // Clear previous message
-            messageDiv.textContent = '';
-            messageDiv.className = 'message';
-            
-            // Define your codes and game URLs here
-            const codes = {
-                'Hogamadog': 'https://nolan1957.github.io/snowmangame/',  // Replace with first game URL
-                'Crumping': 'https://brendanbay.github.io/Game/'  // Replace with second game URL
-            };
-            
-            if (codes[code]) {
-                messageDiv.textContent = 'Access granted! Redirecting...';
-                messageDiv.className = 'message success';
-                // Redirect after 1 second
-                setTimeout(() => {
-                    window.location.href = codes[code];
-                }, 1000);
-            } else {
-                messageDiv.textContent = 'Invalid code. Please try again.';
-                messageDiv.className = 'message error';
-                document.getElementById('codeInput').value = '';
-                document.getElementById('codeInput').focus();
-            }
-        }
-        
-        // Allow Enter key to submit
-        document.getElementById('codeInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                checkCode();
-            }
-        });
-        
-        // Focus on input when page loads
-        window.onload = function() {
-            document.getElementById('codeInput').focus();
-        };
+    const code = document.getElementById('codeInput').value.trim().toLowerCase();
+    const messageDiv = document.getElementById('message');
+    
+    // Clear previous message
+    messageDiv.textContent = '';
+    messageDiv.className = 'message';
+    
+    // Define your codes and game URLs here (unchanged)
+    const codes = {
+        'hogamadog': 'https://nolan1957.github.io/snowmangame', // Replace with first game URL
+        'crumping': 'https://brendanbay.github.io/Game' // Replace with second game URL
+    };
+    
+    if (codes[code]) {
+        messageDiv.textContent = 'Access granted! Redirecting...';
+        messageDiv.className = 'message success';
+        // Redirect after 1 second
+        setTimeout(() => window.location.href = codes[code], 1000);
+    } else {
+        messageDiv.textContent = 'Invalid code. Please try again.';
+        messageDiv.className = 'message error';
+        document.getElementById('codeInput').value = '';
+        document.getElementById('codeInput').focus();
+    }
+}
+
+// Allow Enter key to submit
+document.getElementById('codeInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') checkCode();
+});
+
+// Focus on input when page loads
+window.onload = function() {
+    document.getElementById('codeInput').focus();
+};
     </script>
 </body>
 </html>
